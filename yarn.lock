@@ -9,10 +9,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@antwika/common@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@antwika/common/-/common-0.0.3.tgz#d2b4a122337809775467ce01ae727451f9830e2a"
-  integrity sha512-/WRLyEfjVWrjM2LB2/Jc0stQQcaa44b8QasJPm5OAtY3x1EvDcQNw50UYsa+r+C4xjgqrjQXCGa3MIXeonp0aA==
+"@antwika/common@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@antwika/common/-/common-0.0.5.tgz#481563a059d50390dd06b88559c836d2bc25b2be"
+  integrity sha512-AB972FhwoI+sw28fAHZzb8/4xfCDtwpxBxQ1aicNSsrRP9CESwyt5oZA2MhhVdhqLm9RhssrnKl+TAG1b3+B4Q==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.7":
   version "7.16.7"
