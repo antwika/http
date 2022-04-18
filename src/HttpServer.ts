@@ -35,7 +35,7 @@ export class HttpServer extends Service {
     console.log('HttpServer stopping...');
   }
 
-  public async requestListener(req: IncomingMessage, res: ServerResponse) {
+  public requestListener = async (req: IncomingMessage, res: ServerResponse) => {
     for (const httpHandler of this.httpHandlers) {
       if (await httpHandler.canHandle({ req: () => req, res: () => res })) {
         await httpHandler.handle({ req: () => req, res: () => res });

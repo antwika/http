@@ -142,4 +142,18 @@ describe('HttpRoute', () => {
     expect(mockHttpHandler.canHandle).toHaveBeenCalledTimes(1);
     expect(mockHttpHandler.handle).toHaveBeenCalledTimes(1);
   });
+
+  it('populates(if missing) paths from request url', async () => {
+    const route = new HttpRoute({
+      path: '/test'
+    });
+
+    const handlable = {
+      req: jest.fn(),
+      res: jest.fn(),
+    }
+    handlable.req.mockReturnValue({ url: '/test' } as any);
+
+    expect(route.extractNestedHandlable(handlable as any)).toBeTruthy();
+  })
 });

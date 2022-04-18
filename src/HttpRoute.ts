@@ -62,15 +62,20 @@ export class HttpRoute implements IHttpHandler {
     }
   }
 
-  private extractNestedHandlable(handlable: IHttpRouteHandlable): IHttpRouteHandlable | void {
+  public extractNestedHandlable(handlable: IHttpRouteHandlable): IHttpRouteHandlable | void {
     const request = handlable.req();
-    const paths = handlable.paths();
 
     if (!request.url) return;
 
-    // const baseUrl = 'http://example.com';
-    // const url = new URL(`${baseUrl}${request.url}`);
-    // const nestedPaths = paths ? paths.slice(1) : url.pathname.split('/').map(path => `/${path}`).slice(1);
+    let paths;
+    if (handlable.paths !== undefined) {
+      paths = handlable.paths();
+    } else {
+      const baseUrl = 'http://example.com';
+      const url = new URL(`${baseUrl}${request.url}`);
+      paths = url.pathname.split('/').map(path => `/${path}`);
+    }
+
     const nestedPaths = paths.slice(1);
 
     return { ...handlable, paths: () => nestedPaths };
