@@ -15,12 +15,12 @@ describe('HttpRoute', () => {
       req: jest.fn(),
       res: jest.fn(),
       paths: jest.fn(),
-    }
+    };
   });
 
   afterEach(() => {
     jest.resetAllMocks();
-  })
+  });
 
   it('rejects if there are no routes and no endpoint configured', async () => {
     const route = new HttpRoute({
@@ -29,7 +29,7 @@ describe('HttpRoute', () => {
     handlable.req.mockReturnValue({ url: '/test' } as any);
     handlable.paths.mockReturnValue(['/', '/test']);
 
-    expect(route.canHandle(handlable)).resolves.toBeFalsy();
+    await expect(route.canHandle(handlable)).resolves.toBeFalsy();
   });
 
   it('rejects if there are no url in http request', async () => {
@@ -40,7 +40,7 @@ describe('HttpRoute', () => {
     handlable.req.mockReturnValue({ url: undefined } as any);
     handlable.paths.mockReturnValue(['/', '/test']);
 
-    expect(route.canHandle(handlable)).resolves.toBeFalsy();
+    await expect(route.canHandle(handlable)).resolves.toBeFalsy();
     expect(mockHttpHandler.canHandle).not.toHaveBeenCalled();
     expect(mockHttpHandler.handle).not.toHaveBeenCalled();
 
@@ -60,7 +60,7 @@ describe('HttpRoute', () => {
     handlable.req.mockReturnValue({ url: '/other' } as any);
     handlable.paths.mockReturnValue(['/', '/other']);
 
-    expect(route.canHandle(handlable)).resolves.toBeFalsy();
+    await expect(route.canHandle(handlable)).resolves.toBeFalsy();
   });
 
   it('rejects if endpoint can not handle the request', async () => {
@@ -74,7 +74,7 @@ describe('HttpRoute', () => {
     handlable.req.mockReturnValue({ url: '/test' } as any);
     handlable.paths.mockReturnValue(['/', '/test']);
 
-    expect(route.canHandle(handlable)).resolves.toBeFalsy();
+    await expect(route.canHandle(handlable)).resolves.toBeFalsy();
   });
 
   it('populates "paths" none are provided', async () => {
@@ -84,7 +84,7 @@ describe('HttpRoute', () => {
     handlable.req.mockReturnValue({ url: '/test' } as any);
     handlable.paths.mockReturnValue([]);
 
-    expect(route.canHandle(handlable)).resolves.toBeFalsy();
+    await expect(route.canHandle(handlable)).resolves.toBeFalsy();
   });
 
   it('can calls canHandle on endpoint', async () => {
@@ -98,7 +98,7 @@ describe('HttpRoute', () => {
     handlable.req.mockReturnValue({ url: '/test' } as any);
     handlable.paths.mockReturnValue(['/', '/test']);
 
-    expect(route.canHandle(handlable)).resolves.toBeTruthy();
+    await expect(route.canHandle(handlable)).resolves.toBeTruthy();
   });
 
   it('can calls canHandle on nested route/endpoint', async () => {
@@ -110,14 +110,14 @@ describe('HttpRoute', () => {
 
     const route = new HttpRoute({
       path: '/test',
-      routes: [nestedRoute]
+      routes: [nestedRoute],
     });
 
     mockHttpHandler.canHandle.mockResolvedValue(true);
     handlable.req.mockReturnValue({ url: '/test/nested' } as any);
     handlable.paths.mockReturnValue(['/', '/test', '/nested']);
 
-    expect(route.canHandle(handlable)).resolves.toBeTruthy();
+    await expect(route.canHandle(handlable)).resolves.toBeTruthy();
     expect(mockHttpHandler.canHandle).toHaveBeenCalledTimes(1);
   });
 
@@ -130,7 +130,7 @@ describe('HttpRoute', () => {
 
     const route = new HttpRoute({
       path: '/test',
-      routes: [nestedRoute]
+      routes: [nestedRoute],
     });
 
     mockHttpHandler.canHandle.mockResolvedValue(true);
@@ -145,15 +145,15 @@ describe('HttpRoute', () => {
 
   it('populates(if missing) paths from request url', async () => {
     const route = new HttpRoute({
-      path: '/test'
+      path: '/test',
     });
 
-    const handlable = {
+    const otherHandlable = {
       req: jest.fn(),
       res: jest.fn(),
-    }
-    handlable.req.mockReturnValue({ url: '/test' } as any);
+    };
+    otherHandlable.req.mockReturnValue({ url: '/test' } as any);
 
-    expect(route.extractNestedHandlable(handlable as any)).toBeTruthy();
-  })
+    expect(route.extractNestedHandlable(otherHandlable as any)).toBeTruthy();
+  });
 });

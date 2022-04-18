@@ -18,7 +18,7 @@ describe('HttpServer', () => {
 
   afterEach(() => {
     jest.resetAllMocks();
-  })
+  });
 
   it('can be started, handle a request and be stopped', async () => {
     const httpServer = new HttpServer({
@@ -34,8 +34,12 @@ describe('HttpServer', () => {
 
     await httpServer.start();
     expect(jestListen).toHaveBeenCalledWith(3000, 'localhost', expect.any(Function));
-    mockHttpHandler.canHandle.mockImplementation(async (handlable: IHttpHandlable) => { handlable.req(); handlable.res(); return true; });
-    mockHttpHandler.handle.mockImplementation(async (handlable: IHttpHandlable) => { handlable.req(); handlable.res(); });
+    mockHttpHandler.canHandle.mockImplementation(async (handlable: IHttpHandlable) => {
+      handlable.req(); handlable.res(); return true;
+    });
+    mockHttpHandler.handle.mockImplementation(async (handlable: IHttpHandlable) => {
+      handlable.req(); handlable.res();
+    });
     await httpServer.requestListener(req, res);
     await httpServer.stop();
   });

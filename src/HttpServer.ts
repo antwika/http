@@ -10,7 +10,9 @@ export interface IHttpServerArgs extends IServiceArgs {
 
 export class HttpServer extends Service {
   private readonly host: string;
+
   private readonly port: number;
+
   private readonly httpHandlers: IHttpHandler[];
 
   constructor(args: IHttpServerArgs) {
@@ -24,7 +26,7 @@ export class HttpServer extends Service {
     const server = createServer(this.requestListener);
     await new Promise((resolve: any) => {
       server.listen(this.port, this.host, () => {
-          resolve();
+        resolve();
       });
     });
 
@@ -37,10 +39,12 @@ export class HttpServer extends Service {
 
   public requestListener = async (req: IncomingMessage, res: ServerResponse) => {
     for (const httpHandler of this.httpHandlers) {
+      // eslint-disable-next-line no-await-in-loop
       if (await httpHandler.canHandle({ req: () => req, res: () => res })) {
+        // eslint-disable-next-line no-await-in-loop
         await httpHandler.handle({ req: () => req, res: () => res });
         return;
       }
     }
-  }
+  };
 }

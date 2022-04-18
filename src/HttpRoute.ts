@@ -12,7 +12,9 @@ export interface IHttpRouteArgs {
 
 export class HttpRoute implements IHttpHandler {
   private readonly path: string;
+
   private readonly routes?: HttpRoute[];
+
   private readonly endpoint?: IHttpHandler;
 
   constructor(args: IHttpRouteArgs) {
@@ -26,11 +28,12 @@ export class HttpRoute implements IHttpHandler {
     if (!nestedHandlable) return false;
 
     const nestedPaths = nestedHandlable.paths();
-    
+
     if (nestedPaths[0] !== this.path) return false;
-  
+
     if (this.routes) {
       for (const route of this.routes) {
+        // eslint-disable-next-line no-await-in-loop
         if (await route.canHandle(nestedHandlable)) {
           return true;
         }
@@ -50,13 +53,15 @@ export class HttpRoute implements IHttpHandler {
 
     if (this.routes) {
       for (const route of this.routes) {
+        // eslint-disable-next-line no-await-in-loop
         if (await route.canHandle(nestedHandlable)) {
+          // eslint-disable-next-line no-await-in-loop
           await route.handle(nestedHandlable);
           return;
         }
       }
     }
-    
+
     if (this.endpoint) {
       await this.endpoint.handle(handlable);
     }
@@ -73,11 +78,12 @@ export class HttpRoute implements IHttpHandler {
     } else {
       const baseUrl = 'http://example.com';
       const url = new URL(`${baseUrl}${request.url}`);
-      paths = url.pathname.split('/').map(path => `/${path}`);
+      paths = url.pathname.split('/').map((path) => `/${path}`);
     }
 
     const nestedPaths = paths.slice(1);
 
+    // eslint-disable-next-line consistent-return
     return { ...handlable, paths: () => nestedPaths };
   }
 }
