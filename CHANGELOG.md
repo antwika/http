@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/antwika/http/compare/v0.0.4...v0.0.5) (2022-04-18)
+
+
+### Features
+
+* add lint step to pre-commit hook ([0d7ee62](https://github.com/antwika/http/commit/0d7ee622aa7deb41a9fa217140237b580e9d13c0))
+* consolate req/res argument into a single interface IHttpOperation ([682e6a3](https://github.com/antwika/http/commit/682e6a3af980038cb2466efd587d4b17855742c9))
+* status badges in readme ([373ef7e](https://github.com/antwika/http/commit/373ef7ed8b11d5e4c32e33d5c43fdb5731a8e721))
+
+
+### Bug Fixes
+
+* set test coverage threshold to 100% ([f251304](https://github.com/antwika/http/commit/f2513040acb1d7eae28a17ca413c88a4ffdf74a0))
+
 ### [0.0.4](https://github.com/antwika/http/compare/v0.0.3...v0.0.4) (2022-04-18)
 
 
