@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/antwika/http/compare/v0.0.3...v0.0.4) (2022-04-18)
+
+
+### Features
+
+* add renovate configuration ([a4707ca](https://github.com/antwika/http/commit/a4707ca28fff89fda7ddd3eb3030e0bebd5d4d4f))
+* added husky for git hooks ([e9bb500](https://github.com/antwika/http/commit/e9bb500137f2d4e6dbab47a72bb70731f18f47c3))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @antwika/common to v0.0.6 ([5a155af](https://github.com/antwika/http/commit/5a155afd1b0b4347cc5e0bd50469e7d7945ea7da))
+
 ### 0.0.3 (2022-04-18)
 
 
