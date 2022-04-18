@@ -2,6 +2,11 @@ import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { IServiceArgs, Service } from '@antwika/common';
 import { IHttpHandler } from './IHttpHandler';
 
+export interface IHttpOperation {
+  req(): IncomingMessage,
+  res(): ServerResponse,
+}
+
 export interface IHttpServerArgs extends IServiceArgs {
   host: string;
   port: number;
@@ -38,11 +43,12 @@ export class HttpServer extends Service {
   }
 
   public requestListener = async (req: IncomingMessage, res: ServerResponse) => {
+    const operation: IHttpOperation = { req: () => req, res: () => res };
     for (const httpHandler of this.httpHandlers) {
       // eslint-disable-next-line no-await-in-loop
-      if (await httpHandler.canHandle({ req: () => req, res: () => res })) {
+      if (await httpHandler.canHandle(operation)) {
         // eslint-disable-next-line no-await-in-loop
-        await httpHandler.handle({ req: () => req, res: () => res });
+        await httpHandler.handle(operation);
         return;
       }
     }
