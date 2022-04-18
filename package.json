@@ -19,7 +19,7 @@
     "build:ts": "tsc",
     "build:components": "componentsjs-generator -c dist/components",
     "lint": "eslint src/**.ts",
-    "test": "jest --coverage",
+    "test": "jest",
     "release": "standard-version",
     "prepare": "husky install"
   },
