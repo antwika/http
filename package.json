@@ -19,7 +19,8 @@
     "build:ts": "tsc",
     "build:components": "componentsjs-generator -c dist/components",
     "lint": "eslint src/**.ts",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "release": "standard-version"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
