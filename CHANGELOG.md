@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/antwika/http/compare/v0.0.3...v0.0.7) (2022-04-28)
+
+
+### Features
+
+* add lint step to pre-commit hook ([0d7ee62](https://github.com/antwika/http/commit/0d7ee622aa7deb41a9fa217140237b580e9d13c0))
+* add renovate configuration ([a4707ca](https://github.com/antwika/http/commit/a4707ca28fff89fda7ddd3eb3030e0bebd5d4d4f))
+* added husky for git hooks ([e9bb500](https://github.com/antwika/http/commit/e9bb500137f2d4e6dbab47a72bb70731f18f47c3))
+* consolate req/res argument into a single interface IHttpOperation ([682e6a3](https://github.com/antwika/http/commit/682e6a3af980038cb2466efd587d4b17855742c9))
+* status badges in readme ([373ef7e](https://github.com/antwika/http/commit/373ef7ed8b11d5e4c32e33d5c43fdb5731a8e721))
+* utilize the 'port' argument(if present) for http server port binding ([e8aff40](https://github.com/antwika/http/commit/e8aff40db8cd8c7b8695686d2b8a88f5e9bd7f77))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @antwika/common to v0.0.6 ([5a155af](https://github.com/antwika/http/commit/5a155afd1b0b4347cc5e0bd50469e7d7945ea7da))
+* **deps:** update dependency @antwika/common to v0.0.7 ([7d17765](https://github.com/antwika/http/commit/7d17765524c75925138f66e065a0a29720fff070))
+* enforce all classes in 'src/' to be tested for coverage report ([fabfaa5](https://github.com/antwika/http/commit/fabfaa5820d6670e41331314a3842a5f80d1ae95))
+* set test coverage threshold to 100% ([f251304](https://github.com/antwika/http/commit/f2513040acb1d7eae28a17ca413c88a4ffdf74a0))
+
 ### [0.0.6](https://github.com/antwika/http/compare/v0.0.5...v0.0.6) (2022-04-18)
 
 
