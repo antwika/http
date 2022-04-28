@@ -1,4 +1,5 @@
 import { createServer, IncomingMessage, ServerResponse } from 'http';
+import { AppArguments } from '@antwika/app';
 import { IServiceArgs, Service } from '@antwika/common';
 import { IHttpHandler } from './IHttpHandler';
 
@@ -8,6 +9,7 @@ export interface IHttpOperation {
 }
 
 export interface IHttpServerArgs extends IServiceArgs {
+  appArguments?: AppArguments;
   host: string;
   port: number;
   httpHandlers: IHttpHandler[];
@@ -22,8 +24,9 @@ export class HttpServer extends Service {
 
   constructor(args: IHttpServerArgs) {
     super({ name: 'HttpServer', services: [] });
+    const port = parseInt(args.appArguments?.args.find((arg) => arg.longName === 'port')?.value, 10);
     this.host = args.host;
-    this.port = args.port;
+    this.port = port || args.port;
     this.httpHandlers = args.httpHandlers;
   }
 
@@ -53,4 +56,8 @@ export class HttpServer extends Service {
       }
     }
   };
+
+  public getPort() {
+    return this.port;
+  }
 }

@@ -20,7 +20,7 @@ describe('HttpServer', () => {
     jest.resetAllMocks();
   });
 
-  it('can be started, handle a request and be stopped', async () => {
+  it('can be instantiated with default settings, handle a request and be stopped', async () => {
     const httpServer = new HttpServer({
       name: 'Hello',
       services: [],
@@ -42,5 +42,24 @@ describe('HttpServer', () => {
     });
     await httpServer.requestListener(req, res);
     await httpServer.stop();
+  });
+
+  it('can be instantiated with another port based on injected "port" argument', async () => {
+    const httpServer = new HttpServer({
+      name: 'Hello',
+      services: [],
+      host: 'localhost',
+      port: 3000,
+      httpHandlers: [mockHttpHandler],
+      appArguments: {
+        args: [{
+          shortName: 'p',
+          longName: 'port',
+          description: 'A port',
+          value: '4000',
+        }],
+      },
+    });
+    expect(httpServer.getPort()).toBe(4000);
   });
 });
