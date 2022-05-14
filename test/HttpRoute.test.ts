@@ -127,7 +127,7 @@ describe('HttpRoute', () => {
     await expect(route.canHandle(handlable)).resolves.toBeTruthy();
   });
 
-  it('can calls canHandle on nested route/endpoint', async () => {
+  it('can call canHandle on nested route/endpoint', async () => {
     const nestedRoute = new HttpRoute({
       paths: ['/nested'],
       routes: [],
@@ -165,25 +165,26 @@ describe('HttpRoute', () => {
 
     await route.handle(handlable);
 
-    expect(mockHttpHandler.canHandle).toHaveBeenCalledTimes(1);
+    expect(mockHttpHandler.canHandle).toHaveBeenCalledTimes(3);
     expect(mockHttpHandler.handle).toHaveBeenCalledTimes(1);
   });
 
-  it('populates(if missing) paths from request url', async () => {
-    const route = new HttpRoute({
-      paths: ['/test'],
+  describe('usage of deprecated argument "path"', () => {
+    it('warns if deprecated "paths" property is used on IHttpRouteHandlable', async () => {
+      const route = new HttpRoute({
+        path: '/test',
+      });
+      const deprecatedHandlable = {
+        req: jest.fn(),
+        res: jest.fn(),
+        paths: jest.fn(),
+      };
+      deprecatedHandlable.req.mockReturnValue({ url: undefined } as any);
+      deprecatedHandlable.paths.mockReturnValue(['/', '/test']);
+      await route.canHandle(deprecatedHandlable);
+      expect(console.warn).toHaveBeenCalledWith('Deprecation: IHttpRouteHandlable "paths" property deprecated');
     });
 
-    const otherHandlable = {
-      req: jest.fn(),
-      res: jest.fn(),
-    };
-    otherHandlable.req.mockReturnValue({ url: '/test' } as any);
-
-    expect(route.extractNestedHandlable(otherHandlable as any)).toBeTruthy();
-  });
-
-  describe('usage of deprecated argument "path"', () => {
     it('warns if deprecated "path" argument is used', async () => {
       const route = new HttpRoute({
         path: '/test',
@@ -313,22 +314,95 @@ describe('HttpRoute', () => {
 
       await route.handle(handlable);
 
-      expect(mockHttpHandler.canHandle).toHaveBeenCalledTimes(1);
+      expect(mockHttpHandler.canHandle).toHaveBeenCalledTimes(3);
       expect(mockHttpHandler.handle).toHaveBeenCalledTimes(1);
     });
+  });
 
-    it('populates(if missing) paths from request url', async () => {
-      const route = new HttpRoute({
-        path: '/test',
-      });
-
-      const otherHandlable = {
-        req: jest.fn(),
-        res: jest.fn(),
-      };
-      otherHandlable.req.mockReturnValue({ url: '/test' } as any);
-
-      expect(route.extractNestedHandlable(otherHandlable as any)).toBeTruthy();
+  it('can call a nested route\'s endpoint if the request url(path) matches all previous routes', async () => {
+    const nestedRoute = new HttpRoute({
+      path: '/nested',
+      routes: [],
+      endpoint: mockHttpHandler,
     });
+
+    const route = new HttpRoute({
+      path: '/test',
+      routes: [nestedRoute],
+    });
+
+    mockHttpHandler.canHandle.mockResolvedValue(true);
+    handlable.req.mockReturnValue({ url: '/test/nested' } as any);
+    // handlable.paths.mockReturnValue(['/', '/test', '/nested']);
+
+    await route.canHandle(handlable);
+
+    expect(mockHttpHandler.canHandle).toHaveBeenCalledTimes(1);
+    // expect(mockHttpHandler.handle).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call the endpoint of a nested route, if the nested route\'s path is not matching the url of the request', async () => {
+    const nestedRoute = new HttpRoute({
+      path: '/nested',
+      routes: [],
+      endpoint: mockHttpHandler,
+    });
+
+    const route = new HttpRoute({
+      path: '/test',
+      routes: [nestedRoute],
+    });
+
+    mockHttpHandler.canHandle.mockResolvedValue(true);
+    handlable.req.mockReturnValue({ url: '/test/other' } as any);
+
+    await route.canHandle(handlable);
+
+    expect(mockHttpHandler.canHandle).toHaveBeenCalledTimes(0);
+  });
+
+  it('should find a compatible path, that is not first in the "paths" array', async () => {
+    const nestedRoute = new HttpRoute({
+      paths: ['/nested', '/other'],
+      routes: [],
+      endpoint: mockHttpHandler,
+    });
+
+    const route = new HttpRoute({
+      path: '/test',
+      routes: [nestedRoute],
+    });
+
+    mockHttpHandler.canHandle.mockResolvedValue(true);
+    handlable.req.mockReturnValue({ url: '/test/other' } as any);
+
+    await route.handle(handlable);
+
+    expect(mockHttpHandler.canHandle).toHaveBeenCalledTimes(3);
+    expect(mockHttpHandler.handle).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not find any compatible path, if handlable request url is undefined', async () => {
+    const route = new HttpRoute({
+      path: '/test',
+      routes: [],
+      endpoint: mockHttpHandler,
+    });
+
+    handlable.req.mockReturnValue({ url: undefined } as any);
+    expect(route.findFirstCompatiblePath(handlable)).toBeNull();
+  });
+
+  it('should not find any compatible path, if handlable request url different than the registered paths for this route', async () => {
+    const route = new HttpRoute({
+      path: '/test',
+      routes: [],
+      endpoint: mockHttpHandler,
+    });
+
+    handlable.req.mockReturnValue({ url: '/foo' } as any);
+    expect(await route.handle(handlable)).toBeFalsy();
+    expect(mockHttpHandler.canHandle).not.toHaveBeenCalled();
+    expect(mockHttpHandler.handle).not.toHaveBeenCalled();
   });
 });

@@ -1,7 +1,9 @@
 import { IHttpHandlable, IHttpHandler } from './IHttpHandler';
+import { RouteDataParser } from './RouteDataParser';
 
 export interface IHttpRouteHandlable extends IHttpHandlable {
-  paths(): string[];
+  paths(): string[] | undefined; // Deprecated
+  base?: string;
 }
 
 export interface IHttpRouteArgs {
@@ -46,16 +48,26 @@ export class HttpRoute implements IHttpHandler {
   }
 
   public async canHandle(handlable: IHttpRouteHandlable) {
-    const nestedHandlable = this.extractNestedHandlable(handlable);
-    if (!nestedHandlable) return false;
+    const req = handlable.req();
+    const base = handlable.base || '';
+    const { paths } = handlable;
+    if (paths !== undefined) console.warn('Deprecation: IHttpRouteHandlable "paths" property deprecated');
+    const { url } = req;
 
-    const nestedPaths = nestedHandlable.paths();
+    if (!url) return false;
 
-    const foundPath = this.paths.some((path) => nestedPaths[0] === path);
-    if (!foundPath) return false;
+    const compatiblePath = this.findFirstCompatiblePath(handlable);
+
+    if (!compatiblePath) return false;
 
     if (this.routes) {
       for (const route of this.routes) {
+        const nestedBase = base + compatiblePath;
+        const nestedHandlable = {
+          ...handlable,
+          base: nestedBase,
+        };
+
         // eslint-disable-next-line no-await-in-loop
         if (await route.canHandle(nestedHandlable)) {
           return true;
@@ -63,19 +75,29 @@ export class HttpRoute implements IHttpHandler {
       }
     }
 
-    if (this.endpoint && nestedPaths.length === 1) {
-      return this.endpoint.canHandle(handlable);
+    if (this.endpoint) {
+      const ret = await this.endpoint.canHandle(handlable);
+      return ret;
     }
 
     return false;
   }
 
   public async handle(handlable: IHttpRouteHandlable) {
-    const nestedHandlable = this.extractNestedHandlable(handlable);
-    if (!nestedHandlable) return;
+    const canHandle = await this.canHandle(handlable);
+    if (!canHandle) return;
+
+    const base = handlable.base || '';
+
+    const compatiblePath = this.findFirstCompatiblePath(handlable);
 
     if (this.routes) {
       for (const route of this.routes) {
+        const nestedBase = base + compatiblePath;
+        const nestedHandlable = {
+          ...handlable,
+          base: nestedBase,
+        };
         // eslint-disable-next-line no-await-in-loop
         if (await route.canHandle(nestedHandlable)) {
           // eslint-disable-next-line no-await-in-loop
@@ -90,23 +112,21 @@ export class HttpRoute implements IHttpHandler {
     }
   }
 
-  public extractNestedHandlable(handlable: IHttpRouteHandlable): IHttpRouteHandlable | void {
-    const request = handlable.req();
+  public findFirstCompatiblePath(handlable: IHttpRouteHandlable) {
+    const { url } = handlable.req();
 
-    if (!request.url) return;
+    if (!url) return null;
 
-    let paths;
-    if (handlable.paths !== undefined) {
-      paths = handlable.paths();
-    } else {
-      const baseUrl = 'http://example.com';
-      const url = new URL(`${baseUrl}${request.url}`);
-      paths = url.pathname.split('/').map((path) => `/${path}`);
+    const { base } = handlable;
+    let compatiblePath: string | null = null;
+    for (const path of this.paths) {
+      try {
+        RouteDataParser.parse(base + path, url);
+        compatiblePath = path;
+      } catch (err) {
+        // NOP
+      }
     }
-
-    const nestedPaths = paths.slice(1);
-
-    // eslint-disable-next-line consistent-return
-    return { ...handlable, paths: () => nestedPaths };
+    return compatiblePath;
   }
 }
