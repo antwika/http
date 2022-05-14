@@ -3,6 +3,9 @@
   "name": "@antwika/http",
   "version": "0.0.8",
   "private": false,
+  "engines": {
+    "node": ">=16.15"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "lsd:module": "https://linkedsoftwaredependencies.org/bundles/npm/@antwika/http",
