@@ -76,8 +76,7 @@ export class HttpRoute implements IHttpHandler {
     }
 
     if (this.endpoint) {
-      const ret = await this.endpoint.canHandle(handlable);
-      return ret;
+      return this.endpoint.canHandle(handlable);
     }
 
     return false;
