@@ -5,22 +5,44 @@ export interface IHttpRouteHandlable extends IHttpHandlable {
 }
 
 export interface IHttpRouteArgs {
-  path: string;
+  path?: string | string[];
+  paths?: string[];
   routes?: HttpRoute[];
   endpoint?: IHttpHandler;
 }
 
 export class HttpRoute implements IHttpHandler {
-  private readonly path: string;
+  private readonly paths: string[];
 
   private readonly routes?: HttpRoute[];
 
   private readonly endpoint?: IHttpHandler;
 
   constructor(args: IHttpRouteArgs) {
-    this.path = args.path;
-    this.routes = args.routes;
-    this.endpoint = args.endpoint;
+    const {
+      path, // Deprecated, use paths instead
+      paths,
+      routes,
+      endpoint,
+    } = args;
+
+    this.paths = [];
+
+    if (path) console.warn('Deprecation: HttpRoute "path" argument deprecated, use argument "paths" instead');
+    if (path && paths) throw new Error('Failed to instantiate HttpRoute because both "paths" and "path" arguments were provided, prefer usage of "paths" only');
+    if (!paths && !path) throw new Error('Failed to instantiate HttpRoute because argument neither "path" nor "paths" were provided');
+    if (paths && paths.length === 0) throw new Error('Failed to instantiate HttpRoute because "paths" argument is an empty array');
+
+    if (paths) {
+      this.paths = paths;
+    } else if (path) {
+      this.paths = Array.isArray(path) ? path : [path];
+    }
+
+    this.routes = routes;
+    this.endpoint = endpoint;
+
+    if (!Array.isArray(args.path)) console.warn('Deprecation: HttpRoute "path" argument deprecated, use argument "paths" instead');
   }
 
   public async canHandle(handlable: IHttpRouteHandlable) {
@@ -29,7 +51,8 @@ export class HttpRoute implements IHttpHandler {
 
     const nestedPaths = nestedHandlable.paths();
 
-    if (nestedPaths[0] !== this.path) return false;
+    const foundPath = this.paths.some((path) => nestedPaths[0] === path);
+    if (!foundPath) return false;
 
     if (this.routes) {
       for (const route of this.routes) {
