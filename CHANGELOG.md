@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/antwika/http/compare/v0.0.8...v0.0.9) (2022-05-14)
+
+
+### Features
+
+* define supported node engine LTS (>=16.15.0) in package.json ([7fd9392](https://github.com/antwika/http/commit/7fd9392c65f0a351474847d00a50141ca69e886f))
+* new 'paths' argument, deprecates usage of old 'path' argument ([7ddea85](https://github.com/antwika/http/commit/7ddea85de680434b901b8f462e14c3b80449a751))
+
 ### [0.0.8](https://github.com/antwika/http/compare/v0.0.7...v0.0.8) (2022-05-04)
 
 
