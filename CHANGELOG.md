@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/antwika/http/compare/v0.0.9...v0.0.10) (2022-05-14)
+
+
+### Features
+
+* new RouteDataParser to get better information about params, also deprecated IHttpRouteHandlable::paths property. ([f81f54c](https://github.com/antwika/http/commit/f81f54cbc68a72728c8e4872a760eb181b359ebe))
+
 ### [0.0.9](https://github.com/antwika/http/compare/v0.0.8...v0.0.9) (2022-05-14)
 
 
