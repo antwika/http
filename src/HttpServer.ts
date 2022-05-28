@@ -24,7 +24,11 @@ export class HttpServer extends Service {
 
   constructor(args: IHttpServerArgs) {
     super({ name: 'HttpServer', services: [] });
-    const port = parseInt(args.appArguments?.args.find((arg) => arg.longName === 'port')?.value, 10);
+    let port: number | undefined;
+    const appArgumentPort = args.appArguments?.args.find((arg) => arg.longName === 'port');
+    if (appArgumentPort) {
+      port = parseInt(appArgumentPort.value, 10);
+    }
     this.host = args.host;
     this.port = port || args.port;
     this.httpHandlers = args.httpHandlers;
