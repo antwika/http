@@ -44,7 +44,7 @@
     "husky": "8.0.1"
   },
   "dependencies": {
-    "@antwika/app": "0.0.6",
+    "@antwika/app": "0.0.7",
     "@antwika/common": "0.0.9"
   },
   "files": [
