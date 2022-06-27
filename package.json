@@ -18,9 +18,10 @@
     "https://linkedsoftwaredependencies.org/bundles/npm/@antwika/http/*/dist/": "dist/"
   },
   "scripts": {
-    "build": "npm run build:ts && npm run build:components -c components",
+    "build": "npm run build:ts && npm run build:components -c components && npm run build:docs",
     "build:ts": "tsc",
     "build:components": "componentsjs-generator -c dist/components",
+    "build:docs": "typedoc",
     "lint": "eslint src/**.ts",
     "test": "jest",
     "release": "standard-version",
@@ -37,11 +38,12 @@
     "eslint-import-resolver-typescript": "3.1.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jest": "26.5.3",
+    "husky": "8.0.1",
     "jest": "28.1.1",
     "standard-version": "9.5.0",
     "ts-jest": "28.0.5",
-    "typescript": "4.7.4",
-    "husky": "8.0.1"
+    "typedoc": "^0.23.1",
+    "typescript": "4.7.4"
   },
   "dependencies": {
     "@antwika/app": "0.0.10",
