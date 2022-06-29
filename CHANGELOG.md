@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.14](https://github.com/antwika/http/compare/v0.0.13...v0.0.14) (2022-06-29)
+
+
+### Features
+
+* release package every Wednesday at 12:15 UTC ([af17bf2](https://github.com/antwika/http/commit/af17bf20da58d5a806ee84c5a7a7b633bb1be24a))
+* script for typedoc generation ([0e9740b](https://github.com/antwika/http/commit/0e9740bb4317f2aff7327689bdd3139f0989698b))
+
+
+### Bug Fixes
+
+* **deps:** update dependency @antwika/app to v0.0.11 ([553fcdf](https://github.com/antwika/http/commit/553fcdf0f95173ddfec9743a2abe1d81995272b7))
+* **deps:** update dependency @antwika/common to v0.0.13 ([92c3f01](https://github.com/antwika/http/commit/92c3f014f61dff87e5d1b7e9754c0698517d9dee))
+
 ### [0.0.13](https://github.com/antwika/http/compare/v0.0.12...v0.0.13) (2022-06-26)
 
 
