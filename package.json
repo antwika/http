@@ -46,7 +46,7 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@antwika/app": "0.0.51",
+    "@antwika/app": "0.0.52",
     "@antwika/common": "0.0.56"
   },
   "files": [
