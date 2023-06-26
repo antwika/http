@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@antwika/app": "0.0.62",
-    "@antwika/common": "0.0.66"
+    "@antwika/common": "0.0.67"
   },
   "files": [
     "bin",
