@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.0.70](https://github.com/antwika/http/compare/v0.0.69...v0.0.70) (2023-07-26)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @antwika/app to v0.0.67 ([e5b4fd5](https://github.com/antwika/http/commit/e5b4fd55957f838ff456b95507cfdebda6438e60))
+* **deps:** update dependency @antwika/common to v0.0.71 ([8450696](https://github.com/antwika/http/commit/845069629c9be0b5aa026d7aa6f3a7b2fbdaaf63))
+
 ## [0.0.69](https://github.com/antwika/http/compare/v0.0.68...v0.0.69) (2023-07-19)
 
 
