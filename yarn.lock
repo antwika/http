@@ -14,19 +14,14 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@antwika/app@0.0.75":
-  version "0.0.75"
-  resolved "https://registry.yarnpkg.com/@antwika/app/-/app-0.0.75.tgz#1d31074b18a6cbc9be91587e5282506f5532bf02"
-  integrity sha512-l2Li0sZ9mYbOV7M8leAOtnpEb1pF9LHb929Gne2m1W6UFZZCZHvvGiG6wwjR0Wdoro7PwzElTUsYwFJKXd3Z3Q==
+"@antwika/app@0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@antwika/app/-/app-0.0.76.tgz#c10770cb302eda1424925b0d41147626b85b63bb"
+  integrity sha512-WnBtsLfOWFDQTRi6MF7gRpIpzQd5qw0pTq7k0JUSO2FY1dxqplOXEtHSAVEtpp4ullG1nv+liJgN7frwj6yDug==
   dependencies:
-    "@antwika/common" "0.0.79"
+    "@antwika/common" "0.0.80"
     componentsjs "^5.0.1"
     yargs "^17.4.1"
-
-"@antwika/common@0.0.79":
-  version "0.0.79"
-  resolved "https://registry.yarnpkg.com/@antwika/common/-/common-0.0.79.tgz#14a4297762a0098318323fdcbd718a7709f24fda"
-  integrity sha512-laOFWaeASZtmdwMKWQoaZTM5HFZefmy17Wk+BaKnxx/l51R4m5h5CpHXhA8xUOb1OkdnWpVGIyP7bFpkVyA6bw==
 
 "@antwika/common@0.0.80":
   version "0.0.80"
